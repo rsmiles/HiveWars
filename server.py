@@ -9,7 +9,7 @@ class ServerHandler(StreamRequestHandler):
 		data = self.connection.recv(4096)
 		self.wfile.write(data)
 
-class Server(TCPServer, ThreadingMixIn):
+class Server(ThreadingMixIn, TCPServer):
 	def __init__(self, addr, RequestHandlerClass, certfile, keyfile):
 		super().__init__(addr, RequestHandlerClass, True)
 		self.certfile = certfile
