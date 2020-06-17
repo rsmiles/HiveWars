@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from socketserver import TCPServer, ThreadingMixIn, StreamRequestHandler
+from common import *
 import ssl
 
 class ServerHandler(StreamRequestHandler):
@@ -8,12 +9,12 @@ class ServerHandler(StreamRequestHandler):
 		data = self.connection.recv(4096)
 		self.wfile.write(data)
 
-class Server(ThreadingMixIn, TCPServer):
+class Server(TCPServer, ThreadingMixIn):
 	def __init__(self, addr, RequestHandlerClass, certfile, keyfile):
 		super().__init__(addr, RequestHandlerClass, True)
 		self.certfile = certfile
 		self.keyfile = keyfile
-		self.ssl_version = ssl.PROTOCOL_TLSv1_2
+		self.ssl_version = SSL_VERSION
 
 	def get_request(self):
 		sock, addr = self.socket.accept()
